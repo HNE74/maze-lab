@@ -37,36 +37,64 @@ export class MazeRoomComponent implements AfterViewInit {
     // set some default properties about the line
     ctx.lineWidth = 1;
 
-    // Draw a horizontal line
-    const margin = 5;
+    const margin = 0;
     const w = this.width;
     const h = this.height;
     const openingWidth = 20;
 
-    // Draw rectangle as before
+    // Top wall (north)
     ctx.beginPath();
-    ctx.moveTo(margin, margin);
-
-    // Top wall with possible opening
     if (this.room.north !== undefined) {
-      // Calculate opening start and end
       const openingStart = (w - openingWidth) / 2;
       const openingEnd = openingStart + openingWidth;
-
-      // Draw left part of top wall
+      ctx.moveTo(margin, margin);
       ctx.lineTo(openingStart, margin);
-      // Move past the opening
       ctx.moveTo(openingEnd, margin);
-      // Draw right part of top wall
       ctx.lineTo(w - margin, margin);
     } else {
+      ctx.moveTo(margin, margin);
       ctx.lineTo(w - margin, margin);
     }
 
-    // Continue rectangle
-    ctx.lineTo(w - margin, h - margin);
-    ctx.lineTo(margin, h - margin);
-    ctx.lineTo(margin, margin);
+    // Right wall (east)
+    if (this.room.east !== undefined) {
+      const openingStart = (h - openingWidth) / 2;
+      const openingEnd = openingStart + openingWidth;
+      ctx.moveTo(w - margin, margin);
+      ctx.lineTo(w - margin, openingStart);
+      ctx.moveTo(w - margin, openingEnd);
+      ctx.lineTo(w - margin, h - margin);
+    } else {
+      ctx.moveTo(w - margin, margin);
+      ctx.lineTo(w - margin, h - margin);
+    }
+
+    // Bottom wall (south)
+    if (this.room.south !== undefined) {
+      const openingStart = (w - openingWidth) / 2;
+      const openingEnd = openingStart + openingWidth;
+      ctx.moveTo(w - margin, h - margin);
+      ctx.lineTo(openingEnd, h - margin);
+      ctx.moveTo(openingStart, h - margin);
+      ctx.lineTo(margin, h - margin);
+    } else {
+      ctx.moveTo(w - margin, h - margin);
+      ctx.lineTo(margin, h - margin);
+    }
+
+    // Left wall (west)
+    if (this.room.west !== undefined) {
+      const openingStart = (h - openingWidth) / 2;
+      const openingEnd = openingStart + openingWidth;
+      ctx.moveTo(margin, h - margin);
+      ctx.lineTo(margin, openingEnd);
+      ctx.moveTo(margin, openingStart);
+      ctx.lineTo(margin, margin);
+    } else {
+      ctx.moveTo(margin, h - margin);
+      ctx.lineTo(margin, margin);
+    }
+
     ctx.stroke();
   }
 }

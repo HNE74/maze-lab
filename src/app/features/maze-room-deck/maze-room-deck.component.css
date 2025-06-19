@@ -1,0 +1,9 @@
+.room-table {
+  border-collapse: collapse;
+}
+
+.room-cell,
+.room-header {
+  padding: 0;
+  margin: 0;
+}

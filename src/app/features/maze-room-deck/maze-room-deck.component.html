@@ -1,8 +1,8 @@
-<table *ngIf="deck">
+<table class="room-table" *ngIf="deck">
   <th></th>
   <tbody>
-    <tr *ngFor="let data of deck; let i = index">
-      <td *ngFor="let room of data">
+    <tr class="room-row" *ngFor="let data of deck; let i = index">
+      <td class="room-cell" *ngFor="let room of data">
         <app-maze-room [width]="50" [height]="50" [room]="room"></app-maze-room>
       </td>
     </tr>
