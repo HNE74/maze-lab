@@ -37,14 +37,36 @@ export class MazeRoomComponent implements AfterViewInit {
     // set some default properties about the line
     ctx.lineWidth = 1;
 
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(String(this.room.id), 10, 10);
-
     // Draw a horizontal line
+    const margin = 5;
+    const w = this.width;
+    const h = this.height;
+    const openingWidth = 20;
+
+    // Draw rectangle as before
     ctx.beginPath();
-    ctx.moveTo(0, 10); // Start at (10, 50)
-    ctx.lineTo(19, 10); // Draw to (200, 50)
+    ctx.moveTo(margin, margin);
+
+    // Top wall with possible opening
+    if (this.room.north !== undefined) {
+      // Calculate opening start and end
+      const openingStart = (w - openingWidth) / 2;
+      const openingEnd = openingStart + openingWidth;
+
+      // Draw left part of top wall
+      ctx.lineTo(openingStart, margin);
+      // Move past the opening
+      ctx.moveTo(openingEnd, margin);
+      // Draw right part of top wall
+      ctx.lineTo(w - margin, margin);
+    } else {
+      ctx.lineTo(w - margin, margin);
+    }
+
+    // Continue rectangle
+    ctx.lineTo(w - margin, h - margin);
+    ctx.lineTo(margin, h - margin);
+    ctx.lineTo(margin, margin);
     ctx.stroke();
   }
 }

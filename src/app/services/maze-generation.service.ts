@@ -26,6 +26,15 @@ export class MazeGenerationService {
       }
       deck.push(row);
     }
+
+    for (let x = 0; x < width; x++) {
+      deck[0][x].south = deck[1][x];
+    }
+
+    for (let x = 0; x < width; x++) {
+      deck[height - 1][x].north = deck[height - 2][x];
+    }
+
     return deck;
   }
 }
