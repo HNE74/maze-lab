@@ -17,6 +17,8 @@ export class MazeGenerationService {
       return this.generateWithAllConnected(height, width);
     } else if (algorithm == MazeGenerationAlgorithm.RecursiveBacktracking) {
       return this.generateWithRecursiveBacktracking(height, width);
+    } else if (algorithm == MazeGenerationAlgorithm.BinaryTree) {
+      return this.generateWithBinaryTree(height, width);
     } else {
       throw new Error(
         `Maze generation algorithm ${algorithm} is not implemented yet.`
@@ -150,6 +152,41 @@ export class MazeGenerationService {
       deck.push(row);
     }
 
+    return deck;
+  }
+
+  private generateWithBinaryTree(height: number, width: number): Room[][] {
+    const deck: Room[][] = this.initMazeDeck(height, width);
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const room = deck[y][x];
+        const neighbors: { dir: 'north' | 'east'; nx: number; ny: number }[] =
+          [];
+
+        // Check if north neighbor exists
+        if (y > 0) {
+          neighbors.push({ dir: 'north', nx: x, ny: y - 1 });
+        }
+        // Check if east neighbor exists
+        if (x < width - 1) {
+          neighbors.push({ dir: 'east', nx: x + 1, ny: y });
+        }
+
+        if (neighbors.length > 0) {
+          // Randomly pick one neighbor (north or east)
+          const chosen =
+            neighbors[Math.floor(Math.random() * neighbors.length)];
+          if (chosen.dir === 'north') {
+            room.north = deck[chosen.ny][chosen.nx];
+            deck[chosen.ny][chosen.nx].south = room;
+          } else if (chosen.dir === 'east') {
+            room.east = deck[chosen.ny][chosen.nx];
+            deck[chosen.ny][chosen.nx].west = room;
+          }
+        }
+      }
+    }
     return deck;
   }
 }
