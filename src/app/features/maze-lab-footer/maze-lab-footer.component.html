@@ -1,0 +1,11 @@
+<br />
+<label for="algorithms">Maze generation algorithm:</label>
+<select [formControl]="algorithmControl" (change)="onAlgorithmChange()">
+  <option
+    [value]="enum.value"
+    *ngFor="let enum of MazeGenerationAlgorithm | keyvalue"
+  >
+    {{ enum.key | replaceUppercase : "#" }}
+  </option>
+</select>
+<button regenerate-maze (click)="onRegenerateMaze()">Regenarate Maze</button>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Room } from './Room';
-import { RouterLinkWithHref } from '@angular/router';
+import { MazeGenerationAlgorithm } from './MazeGenerationAlgorithm';
 
 @Injectable({
   providedIn: 'root',
@@ -8,24 +8,76 @@ import { RouterLinkWithHref } from '@angular/router';
 export class MazeGenerationService {
   constructor() {}
 
-  public generateRoomDeckMaze(width: number, height: number): Room[][] {
-    let cnt: number = 0;
-    let deck: Room[][] = [];
-    for (let y = 0; y < height; y++) {
-      let row: Room[] = [];
-      for (let x = 0; x < width; x++) {
-        let room: Room = {
-          id: cnt,
-          north: undefined,
-          south: undefined,
-          west: undefined,
-          east: undefined,
-        };
-        row.push(room);
-        cnt++;
-      }
-      deck.push(row);
+  public generateRoomDeckMaze(
+    width: number,
+    height: number,
+    algorithm: MazeGenerationAlgorithm
+  ): Room[][] {
+    if (algorithm === MazeGenerationAlgorithm.AllConnected) {
+      return this.generateWithAllConnected(height, width);
+    } else if (algorithm == MazeGenerationAlgorithm.RecursiveBacktracking) {
+      return this.generateWithRecursiveBacktracking(height, width);
+    } else {
+      throw new Error(
+        `Maze generation algorithm ${algorithm} is not implemented yet.`
+      );
     }
+  }
+
+  private generateWithRecursiveBacktracking(
+    height: number,
+    width: number
+  ): Room[][] {
+    const deck: Room[][] = this.initMazeDeck(height, width);
+
+    // Helper to shuffle directions
+    function shuffle<T>(array: T[]): T[] {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Track visited cells
+    const visited: boolean[][] = Array.from({ length: height }, () =>
+      Array(width).fill(false)
+    );
+
+    function carve(x: number, y: number) {
+      visited[y][x] = true;
+      const directions = shuffle([
+        { dx: 0, dy: -1, dir: 'north', opp: 'south' },
+        { dx: 1, dy: 0, dir: 'east', opp: 'west' },
+        { dx: 0, dy: 1, dir: 'south', opp: 'north' },
+        { dx: -1, dy: 0, dir: 'west', opp: 'east' },
+      ]);
+
+      for (const { dx, dy, dir, opp } of directions) {
+        const nx = x + dx;
+        const ny = y + dy;
+        if (
+          nx >= 0 &&
+          nx < width &&
+          ny >= 0 &&
+          ny < height &&
+          !visited[ny][nx]
+        ) {
+          // Connect rooms in both directions
+          (deck[y][x] as any)[dir] = deck[ny][nx];
+          (deck[ny][nx] as any)[opp] = deck[y][x];
+          carve(nx, ny);
+        }
+      }
+    }
+
+    carve(0, 0); // Start at (0, 0)
+    return deck;
+  }
+
+  private generateWithAllConnected(height: number, width: number): Room[][] {
+    let cnt: number = 0;
+    let deck: Room[][] = this.initMazeDeck(height, width);
 
     for (let x = 0; x < width; x++) {
       deck[0][x].south = deck[1][x];
@@ -74,6 +126,28 @@ export class MazeGenerationService {
         deck[x][y].west = deck[x - 1][y];
         deck[x][y].east = deck[x + 1][y];
       }
+    }
+
+    return deck;
+  }
+
+  private initMazeDeck(height: number, width: number) {
+    let deck: Room[][] = [];
+    let cnt: number = 0;
+    for (let y = 0; y < height; y++) {
+      let row: Room[] = [];
+      for (let x = 0; x < width; x++) {
+        let room: Room = {
+          id: cnt,
+          north: undefined,
+          south: undefined,
+          west: undefined,
+          east: undefined,
+        };
+        row.push(room);
+        cnt++;
+      }
+      deck.push(row);
     }
 
     return deck;

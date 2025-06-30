@@ -1,4 +1,5 @@
-.room-cell {
+.room-cell-card {
   padding: 0;
   margin: 0;
+  vertical-align: bottom;
 }
