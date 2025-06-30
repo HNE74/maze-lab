@@ -1,1 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
+:host {
+  display: block;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  padding: 1.5rem 2rem;
+  font-family: "Segoe UI", Arial, sans-serif;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #222;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+label {
+  font-weight: 600;
+  margin-right: 1rem;
+  color: #333;
+}
+
+select {
+  padding: 0.4rem 1.2rem;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 1rem;
+  margin-right: 1rem;
+  transition: border-color 0.2s;
+}
+
+select:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+
+button[regenerate-maze] {
+  padding: 0.4rem 1.5rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.08);
+}
+
+button[regenerate-maze]:hover {
+  background: #1565c0;
+}

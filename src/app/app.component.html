@@ -1,9 +1,10 @@
 <app-maze-lab-header></app-maze-lab-header>
 <app-maze-room-deck
+  class="maze-deck"
   [mazeGenerationAlgorithm]="selectedMazeGenerationAlgorithm"
   [lastMazeRefreshTime]="lastMazeRefreshTime"
-></app-maze-room-deck>
-<app-maze-lab-footer
+></app-maze-room-deck
+><app-maze-lab-footer
   (mazeAlgorithmChanged)="updateUsedMazeGenerationAlgorithm($event)"
 ></app-maze-lab-footer>
 <router-outlet />

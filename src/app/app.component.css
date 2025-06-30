@@ -1,0 +1,6 @@
+.maze-deck {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to top, not center vertically */
+  height: auto; /* Remove 100vh if not needed */
+}
