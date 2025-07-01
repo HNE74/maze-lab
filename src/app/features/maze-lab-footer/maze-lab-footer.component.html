@@ -1,4 +1,23 @@
 <br />
+<label for="maze-width">Maze width: </label>
+<input
+  id="maze-width"
+  type="number"
+  [value]="mazeWidth"
+  (input)="onMazeWidthChange($event)"
+  maxlength="2"
+  size="2"
+/>
+<label for="maze-height">Maze height: </label>
+<input
+  id="maze-height"
+  type="number"
+  [value]="mazeHeight"
+  (input)="onMazeHeightChange($event)"
+  maxlength="2"
+  size="2"
+/>
+<br />
 <label for="algorithms">Maze generation algorithm:</label>
 <select [formControl]="algorithmControl" (change)="onAlgorithmChange()">
   <option

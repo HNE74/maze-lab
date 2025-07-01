@@ -123,10 +123,10 @@ export class MazeGenerationService {
 
     for (let y = 1; y < height - 1; y++) {
       for (let x = 1; x < width - 1; x++) {
-        deck[x][y].north = deck[x][y - 1];
-        deck[x][y].south = deck[x][y + 1];
-        deck[x][y].west = deck[x - 1][y];
-        deck[x][y].east = deck[x + 1][y];
+        deck[y][x].north = deck[y - 1][x];
+        deck[y][x].south = deck[y + 1][x];
+        deck[y][x].west = deck[y][y - 1];
+        deck[y][x].east = deck[y][y + 1];
       }
     }
 

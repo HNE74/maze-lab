@@ -2,8 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Room } from '../../services/Room';
 import { MazeGenerationService } from '../../services/maze-generation.service';
 import { MazeRoomComponent } from '../maze-room/maze-room.component'; // Adjust path if needed
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { MazeGenerationAlgorithm } from '../../services/MazeGenerationAlgorithm';
+import {
+  DEFAULT_MAZE_WIDTH,
+  DEFAULT_MAZE_HEIGHT,
+} from '../../maze-lab-constants';
 
 @Component({
   selector: 'app-maze-room-deck',
@@ -18,20 +22,23 @@ export class MazeRoomDeckComponent {
 
   @Input() lastMazeRefreshTime?: number;
 
+  @Input() mazeWidth: number = DEFAULT_MAZE_WIDTH;
+  @Input() mazeHeight: number = DEFAULT_MAZE_HEIGHT;
+
   deck!: Room[][];
 
   constructor(private mazeGenerationService: MazeGenerationService) {
     this.deck = mazeGenerationService.generateRoomDeckMaze(
-      5,
-      5,
+      this.mazeWidth,
+      this.mazeHeight,
       this.mazeGenerationAlgorithm
     );
   }
 
   ngOnChanges() {
     this.deck = this.mazeGenerationService.generateRoomDeckMaze(
-      5,
-      5,
+      this.mazeWidth,
+      this.mazeHeight,
       this.mazeGenerationAlgorithm
     );
   }
