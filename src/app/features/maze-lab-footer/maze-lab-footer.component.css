@@ -5,15 +5,8 @@
 
 label,
 select,
+input,
 button[regenerate-maze] {
   margin-right: 1rem;
-}
-
-select,
-button[regenerate-maze] {
   margin-bottom: 1rem;
-}
-
-button[regenerate-maze] {
-  margin-right: 0; /* Remove extra space after the last element */
 }

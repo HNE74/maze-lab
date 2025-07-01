@@ -5,6 +5,8 @@
   type="number"
   [value]="mazeWidth"
   (input)="onMazeWidthChange($event)"
+  min="3"
+  max="20"
   maxlength="2"
   size="2"
 />
@@ -14,6 +16,8 @@
   type="number"
   [value]="mazeHeight"
   (input)="onMazeHeightChange($event)"
+  min="3"
+  max="12"
   maxlength="2"
   size="2"
 />
